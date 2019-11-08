@@ -1,12 +1,7 @@
-import React, { useState } from 'react';s
+import React, { useState } from 'react';
 import './App.css';
 import Dashboard from './components/Dashboard';
-import Display from '.components/Display';
-
- export const addBall = balls => balls + 1;
- export const addStrike = strikes => strikes + 1;
- export const addFoul = fouls => fouls + 1;
- export const addHit = hits => hits + 1;
+import Display from './components/Display';
 
 function App() {
   const [ balls, setBalls ] = useState(0);
@@ -14,28 +9,33 @@ function App() {
   const [ fouls, setFouls ] = useState(0);
   const [ hits, setHits ] = useState(0);
 
+  if ( balls === 4 || strikes === 3 ) {
+    setBalls(0);
+    setStrikes(0);
+  }
+
+  if ( hits === 1 ) {
+    setBalls(0);
+    setStrikes(0);
+    setFouls(0);
+  }
+
+  if ( strikes >= 2 ) {
+    setFouls(fouls);
+  }
+
   return (
     <div className="App">
-      <Dashboard props={{
-        balls,
-        setBalls,
-        strikes,
-        setStrikes,
-        fouls,
-        setFouls,
-        hits,
-        setHits
-      }}/>
-      <Display props={{
-        balls,
-        setBalls,
-        strikes,
-        setStrikes,
-        fouls,
-        setFouls,
-        hits,
-        setHits
-      }}/>
+      <Dashboard
+        setBalls={setBalls}
+        setStrikes={setStrikes}
+        setFouls={setFouls}
+        setHits={setHits}
+      />
+      <Display 
+        balls={balls}
+        strikes={strikes}
+      />
     </div>
   );
 }
